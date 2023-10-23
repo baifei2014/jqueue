@@ -57,6 +57,13 @@ func New(compare _compare) PriorityQueue {
 	return pq
 }
 
+func (pq PriorityQueue) Empty() bool {
+	if pq.queue.Len() > 0 {
+		return false
+	}
+	return true
+}
+
 func (pq PriorityQueue) Put(val any, priority int) {
 	item := &_item{
 		value:    val,
