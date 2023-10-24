@@ -43,6 +43,7 @@ var Lesser _compare = func(i, j int) bool {
 
 type PriorityQueue struct {
 	queue *priority_queue
+	items map[any]*_item
 }
 
 func New(compare _compare) PriorityQueue {
@@ -52,6 +53,7 @@ func New(compare _compare) PriorityQueue {
 			elements: &_elements{},
 			compare:  compare,
 		},
+		items: map[any]*_item{},
 	}
 
 	return pq
@@ -65,12 +67,20 @@ func (pq PriorityQueue) Empty() bool {
 }
 
 func (pq PriorityQueue) Put(val any, priority int) {
+
+	if item, ok := pq.items[val]; ok {
+		item.value = val
+		item.priority = priority
+		heap.Fix(pq.queue, item.index)
+		pq.items[val] = item
+		return
+	}
 	item := &_item{
 		value:    val,
 		priority: priority,
 	}
 	heap.Push(pq.queue, item)
-	pq.queue.update(item, val, priority)
+	pq.items[val] = item
 }
 
 func (pq PriorityQueue) Get() any {

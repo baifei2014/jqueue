@@ -1,5 +1,7 @@
 This lib jqueue is a golang queue lib. The goal of this library is to provide more Golang queue implementations.
 
+***dont support concurrent security***
+
 ## Examples
 
 ### priority queue
